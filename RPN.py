@@ -4,6 +4,7 @@ operators = ["*", "+", "-", "/", "**", "log()"]
 
 # not a real stack but python is also not a real programming language so who cares
 stack = []
+lastAnswer = 0
 
 def operate(operation, num1, num2):
     if(operation == "+"):
@@ -20,7 +21,6 @@ def operate(operation, num1, num2):
         return math.log(num1) / math.log(num2)
 
 while True:
-    # I use " " as I think it looks better, but switching to "," will make it easier to type in calculator
     equation = input().split(" ")
     
     if(equation[0] == ""): break
@@ -31,8 +31,11 @@ while True:
             
             stack[sl - 2] = operate(part, stack[sl - 2], stack[sl - 1])
             del stack[sl - 1] # first number is replaced with result, second is deleted
+        elif(part == "_"): # ans key
+            stack.append(lastAnswer)
         else:
             stack.append(float(part))
 
-    print(stack[0])
+    lastAnswer = stack[0]
+    print(lastAnswer)
     stack = []
