@@ -8,6 +8,8 @@ Supports
 * Radian degrees conversions \("radians\(\)", "degrees\(\)"\)
 * Exponents and roots \("**", "**-", "**2", "**-1"\)
 * ans, pi, e \("\_", "pi", "e"\)
+* Comparisons \("==", "!=", "<", "<=", ">", ">="\)
+* Boolean operators \("and", "or", "not"\)
 
 ## Examples
 * `3 4 × 5 6 × +` returns `42.0`

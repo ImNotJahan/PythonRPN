@@ -1,8 +1,9 @@
 import math
 
-OPERATIONS = ["*", "+", "-", "/", "**", "log()", "**-"]
+OPERATIONS = ["*", "+", "-", "/", "**", "**-", "log()",
+              "==", "!=", ">", ">=", "<", "<=", "and", "or"]
 FUNCTIONS = ["sin()", "cos()", "tan()", "asin()", "acos()", "atan()",
-             "radians()", "degrees()", "**2", "**-1"]
+             "radians()", "degrees()", "**2", "**-1", "not"]
 
 # not a real stack but python is also not a real programming language so who cares
 stack = []
@@ -23,6 +24,22 @@ def operate(operation, num1, num2):
         return num1 ** (1 / num2)
     elif(operation == "log()"):
         return math.log(num1) / math.log(num2)
+    elif(operation == "=="):
+        return num1 == num2
+    elif(operation == "!="):
+        return num1 != num2
+    elif(operation == ">"):
+        return num1 > num2
+    elif(operation == ">="):
+        return num1 >= num2
+    elif(operation == "<"):
+        return num1 < num2
+    elif(operation == "<="):
+        return num1 <= num2
+    elif(operation == "and"):
+        return num1 and num2
+    elif(operation == "or"):
+        return num1 or num2
 
 def execute(function, num):
     if(function == "sin()"):
@@ -45,6 +62,8 @@ def execute(function, num):
          return math.sqrt(num)
     elif(function == "**2"):
          return num ** 2
+    elif(function == "not"):
+        return not num;
 
 while True:
     equation = input()
@@ -68,6 +87,10 @@ while True:
             stack.append(math.pi)
         elif(part == "e"):
             stack.append(math.e)
+        elif(part == "True"):
+            stack.append(True)
+        elif(part == "False"):
+            stack.append(False)
         else:
             stack.append(float(part))
 
