@@ -1,6 +1,8 @@
 import math
 
-operators = ["*", "+", "-", "/", "**", "log()"]
+OPERATIONS = ["*", "+", "-", "/", "**", "log()", "**-"]
+FUNCTIONS = ["sin()", "cos()", "tan()", "asin()", "acos()", "atan()",
+             "radians()", "degrees()", "**2", "**-1"]
 
 # not a real stack but python is also not a real programming language so who cares
 stack = []
@@ -17,22 +19,55 @@ def operate(operation, num1, num2):
         return num1 / num2
     elif(operation == "**"):
         return num1 ** num2
+    elif(operation == "**-"):
+        return num1 ** (1 / num2)
     elif(operation == "log()"):
         return math.log(num1) / math.log(num2)
 
+def execute(function, num):
+    if(function == "sin()"):
+        return math.sin(num)
+    elif(function == "cos()"):
+        return math.cos(num)
+    elif(function == "tan()"):
+        return math.tan(num)
+    elif(function == "asin()"):
+        return math.asin(num)
+    elif(function == "acos()"):
+        return math.acos(num)
+    elif(function == "atan()"):
+        return math.atan(num)
+    elif(function == "degrees()"):
+        return math.degrees(num)
+    elif(function == "radians()"):
+        return math.radians(num)
+    elif(function == "**-1"):
+         return math.sqrt(num)
+    elif(function == "**2"):
+         return num ** 2
+
 while True:
-    equation = input().split(" ")
+    equation = input()
+
+    if("," in equation): equation = equation.split(",")
+    else: equation = equation.split(" ")
     
     if(equation[0] == ""): break
 
     for part in equation:
-        if(part in operators):
-            sl = len(stack) # sl = stackLength
-            
+        sl = len(stack) # sl = stackLength
+        
+        if(part in OPERATIONS):
             stack[sl - 2] = operate(part, stack[sl - 2], stack[sl - 1])
             del stack[sl - 1] # first number is replaced with result, second is deleted
+        elif(part in FUNCTIONS):
+            stack[sl - 1] = execute(part, stack[sl - 1])
         elif(part == "_"): # ans key
             stack.append(lastAnswer)
+        elif(part == "pi"):
+            stack.append(math.pi)
+        elif(part == "e"):
+            stack.append(math.e)
         else:
             stack.append(float(part))
 
