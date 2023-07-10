@@ -114,7 +114,7 @@ while True:
                 stack[sl - 2] = operate(part, stack[sl - 2], stack[sl - 1])
                 del stack[sl - 1] # first number is replaced with result, second is deleted
             except Exception as error:
-                print(f"{type(error).__name__}: {error}")
+                print("{}: {}".format(type(error).__name__, error))
                 
                 stack = []
                 break;
@@ -122,7 +122,7 @@ while True:
             try:
                 stack[sl - 1] = execute(part, stack[sl - 1])
             except Exception as error:
-                print(f"{type(error).__name__}: {error}")
+                print("{}: {}".format(type(error).__name__, error))
                 
                 stack = []
                 break;
