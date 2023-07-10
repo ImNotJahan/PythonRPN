@@ -48,7 +48,6 @@ def operate(operation, num1, num2):
         return num1 or num2
     elif(operation == "="):
         variables[num1] = num2
-        print(variables)
         return None
     elif(operation == "+="):
         variables[num1] = variables[num1] + num2
@@ -111,10 +110,22 @@ while True:
         sl = len(stack) # sl = stackLength
         
         if(part in OPERATIONS):
-            stack[sl - 2] = operate(part, stack[sl - 2], stack[sl - 1])
-            del stack[sl - 1] # first number is replaced with result, second is deleted
+            try:
+                stack[sl - 2] = operate(part, stack[sl - 2], stack[sl - 1])
+                del stack[sl - 1] # first number is replaced with result, second is deleted
+            except Exception as error:
+                print(f"{type(error).__name__}: {error}")
+                
+                stack = []
+                break;
         elif(part in FUNCTIONS):
-            stack[sl - 1] = execute(part, stack[sl - 1])
+            try:
+                stack[sl - 1] = execute(part, stack[sl - 1])
+            except Exception as error:
+                print(f"{type(error).__name__}: {error}")
+                
+                stack = []
+                break;
         elif(part in variables):
             stack.append(variables[part])
         elif(part == "_"): # ans key
