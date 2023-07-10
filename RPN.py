@@ -1,9 +1,13 @@
 import math
 
-OPERATIONS = ["*", "+", "-", "/", "**", "**-", "log()",
-              "==", "!=", ">", ">=", "<", "<=", "and", "or"]
+OPERATIONS = ["*", "+", "-", "/", "**", "**-", "%", "log()",
+              "==", "!=", ">", ">=", "<", "<=", "and", "or",
+              "=", "+=", "-=", "*=", "/=", "%=", "**="]
 FUNCTIONS = ["sin()", "cos()", "tan()", "asin()", "acos()", "atan()",
-             "radians()", "degrees()", "**2", "**-1", "not"]
+             "radians()", "degrees()", "**2", "**-1", "not",
+             "++", "--"]
+
+variables = {}
 
 # not a real stack but python is also not a real programming language so who cares
 stack = []
@@ -22,6 +26,8 @@ def operate(operation, num1, num2):
         return num1 ** num2
     elif(operation == "**-"):
         return num1 ** (1 / num2)
+    elif(operation == "%"):
+        return num1 % num2
     elif(operation == "log()"):
         return math.log(num1) / math.log(num2)
     elif(operation == "=="):
@@ -40,6 +46,28 @@ def operate(operation, num1, num2):
         return num1 and num2
     elif(operation == "or"):
         return num1 or num2
+    elif(operation == "="):
+        variables[num1] = num2
+        print(variables)
+        return None
+    elif(operation == "+="):
+        variables[num1] = variables[num1] + num2
+        return None
+    elif(operation == "-="):
+        variables[num1] = variables[num1] - num2
+        return None
+    elif(operation == "*="):
+        variables[num1] = variables[num1] * num2
+        return None
+    elif(operation == "/="):
+        variables[num1] = variables[num1] / num2
+        return None
+    elif(operation == "%="):
+        variables[num1] = variables[num1] % num2
+        return None
+    elif(operation == "**="):
+        variables[num1] = variables[num1] ** num2
+        return None
 
 def execute(function, num):
     if(function == "sin()"):
@@ -64,6 +92,12 @@ def execute(function, num):
          return num ** 2
     elif(function == "not"):
         return not num;
+    elif(function == "++"):
+        variables[num] = variables[num] + 1
+        return None
+    elif(function == "--"):
+        variables[num] = variables[num] - 1
+        return None
 
 while True:
     equation = input()
@@ -81,6 +115,8 @@ while True:
             del stack[sl - 1] # first number is replaced with result, second is deleted
         elif(part in FUNCTIONS):
             stack[sl - 1] = execute(part, stack[sl - 1])
+        elif(part in variables):
+            stack.append(variables[part])
         elif(part == "_"): # ans key
             stack.append(lastAnswer)
         elif(part == "pi"):
@@ -91,9 +127,15 @@ while True:
             stack.append(True)
         elif(part == "False"):
             stack.append(False)
+        elif(part[:2] == "()"):
+            stack.append(part[2:])
         else:
             stack.append(float(part))
 
-    lastAnswer = stack[0]
-    print(lastAnswer)
+        if(stack[-1] == None): del stack[-1]
+
+    if(len(stack) > 0):
+        lastAnswer = stack[0]
+        print(lastAnswer)
+        
     stack = []
