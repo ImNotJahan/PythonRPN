@@ -138,8 +138,8 @@ while True:
             stack.append(True)
         elif(part == "False"):
             stack.append(False)
-        elif(part[:2] == "()"):
-            stack.append(part[2:])
+        elif(part[0] == ":"):
+            stack.append(part[1:])
         else:
             stack.append(float(part))
 
